@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import recognition.ImagePoint;
 import sun.misc.IOUtils;
 
 
@@ -49,7 +50,7 @@ public class ImageReader{
 			
 			for(int i = 0; i < 8; i++)
 				readNextImage();
-			BufferedImage image = readNextImage();
+			BufferedImage image = readNextImage().image;
 			
 			ImageDisplayFrame disp = new ImageDisplayFrame( image );
 			disp.changeImage( image );
@@ -64,11 +65,11 @@ public class ImageReader{
 		}
 	}
 	
-	private static int imagesOffset = 16, labelOffset = 8;
+	public static int imagesOffset = 16, labelOffset = 8;
 	
 	public static int width = 28, height = 28;
 	
-	public static BufferedImage readNextImage(){
+	public static ImagePoint readNextImage(){
 		
 //		int height = 0;
 //		for(int i = 0; i < 4; i++){
@@ -86,7 +87,8 @@ public class ImageReader{
 //		}
 //		System.out.println(width);
 		
-		System.out.println(bufLabels[labelOffset]);
+		int label = bufLabels[labelOffset];
+		System.out.println(label);
 		
 		BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
 		
@@ -98,7 +100,7 @@ public class ImageReader{
 			}
 		
 		labelOffset++;
-		return image;
+		return new ImagePoint(image, label);
 	}
 
 }
