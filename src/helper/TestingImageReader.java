@@ -87,7 +87,7 @@ public class TestingImageReader{
 		// System.out.println(width);
 
 		int label = bufLabels[labelOffset];
-		System.out.println( label );
+		// System.out.println( label );
 
 		BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
 
