@@ -15,7 +15,7 @@ import recognition.ImagePoint;
 import sun.misc.IOUtils;
 
 
-public class ImageReader{
+public class TrainingImageReader{
 
 	public static String trainingImages = "resources/train-images.idx3-ubyte",
 			trainingLabels = "resources/train-labels.idx1-ubyte";

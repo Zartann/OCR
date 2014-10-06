@@ -1,6 +1,6 @@
 package recognition.training;
 
-import helper.ImageReader;
+import helper.TrainingImageReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +19,13 @@ public class KNNTraining{
 	 * Entraînement sur le set d'images via la méthode k-NN
 	 */
 	public static void train(){
-		int imagesOffset = ImageReader.imagesOffset, labelOffset = ImageReader.labelOffset;
+		int imagesOffset = TrainingImageReader.imagesOffset, labelOffset = TrainingImageReader.labelOffset;
 		
-		ImageReader.imagesOffset = 16;
-		ImageReader.labelOffset = 8;
+		TrainingImageReader.imagesOffset = 16;
+		TrainingImageReader.labelOffset = 8;
 		
 		for(int i = 0; i < 60000; i++)
-			imagesList.add(ImageReader.readNextImage());
+			imagesList.add(TrainingImageReader.readNextImage());
 	}
 	
 	public static void main(String[] args){
