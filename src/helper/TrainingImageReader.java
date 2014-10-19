@@ -56,7 +56,7 @@ public class TrainingImageReader{
 
 			ImageDisplayFrame disp = new ImageDisplayFrame( image, "Label : "
 					+ bufLabels[labelOffset - 1] );
-			disp.changeImage( image );
+
 			ImageIO.write( image, "jpg", new File( "test.jpg" ) );
 
 			// for(int i = 0; i < 1000; i++)
