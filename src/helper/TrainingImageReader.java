@@ -1,18 +1,14 @@
 package helper;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
 import recognition.ImagePoint;
-import sun.misc.IOUtils;
 
 
 public class TrainingImageReader{
@@ -48,12 +44,15 @@ public class TrainingImageReader{
 		read();
 	}
 
-	public static void read(){
+	/**
+	 * Fonction de test lisant des images
+	 */
+	private static void read(){
 		try{
 
 			for(int i = 0; i < 8; i++)
 				readNextImage();
-			BufferedImage image = readNextImage().image;
+			BufferedImage image = readNextImage().getImage();
 
 			ImageDisplayFrame disp = new ImageDisplayFrame( image );
 			disp.changeImage( image );
@@ -74,36 +73,20 @@ public class TrainingImageReader{
 
 	public static ImagePoint readNextImage(){
 
-		// int height = 0;
-		// for(int i = 0; i < 4; i++){
-		// height <<= 4;
-		// height += bufImages[imagesOffset];
-		// imagesOffset++;
-		// }
-		// System.out.println(height);
-		//
-		// int width = 0;
-		// for(int i = 0; i < 4; i++){
-		// width <<= 4;
-		// width += bufImages[imagesOffset];
-		// imagesOffset++;
-		// }
-		// System.out.println(width);
-
 		int label = bufLabels[labelOffset];
 		// System.out.println(label);
+		labelOffset++;
 
-		BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
+		int[] img = new int[width * height];
 
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++){
-				// System.out.println(i + " " + j + " " + bufImages[imagesOffset]);
-				image.setRGB( j, i, ( 255 - bufImages[imagesOffset] ) * 0x00010101 );
+				img[j + i * height] = 255 - bufImages[imagesOffset];
 				imagesOffset++;
 			}
 
-		labelOffset++;
-		return new ImagePoint( image, label );
+		return new ImagePoint( img, width, height, label );
+		
 	}
 
 }

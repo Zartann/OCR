@@ -3,7 +3,7 @@ package recognition.classification;
 import helper.ImageDisplayFrame;
 import helper.TestingImageReader;
 
-import java.util.Map;
+import java.awt.image.BufferedImage;
 import java.util.TreeMap;
 
 import recognition.ImagePoint;
@@ -29,7 +29,7 @@ public class KNNClassifier{
 
 		int[] labels = new int[10];
 		for(int i = 0; i < k; i++)
-			labels[map.pollFirstEntry().getValue().label]++;
+			labels[map.pollFirstEntry().getValue().getLabel()]++;
 
 		int lbl = 0;
 		for(int i = 0; i < labels.length; i++)
@@ -55,27 +55,29 @@ public class KNNClassifier{
 		int nbTests = 1000;
 		int nbErreurs = 0;
 		for(int i = 1; i <= nbTests; i++){
-			System.out.println("Test n°" + i + " :");
-			
+			System.out.println( "Test n°" + i + " :" );
+
 			ImagePoint imgp = TestingImageReader.readNextImage();
 
-//			ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
-//			disp.changeImage( imgp.image );
+			// ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
+			// disp.changeImage( imgp.image );
 
-			int lbl = recognize( imgp );
-			
-			if(lbl != imgp.label){
+			int recogLbl = recognize( imgp ), lbl = imgp.getLabel();
+			BufferedImage img = imgp.getImage();
+
+			if (recogLbl != lbl){
 				nbErreurs++;
-				ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
-				disp.changeImage( imgp.image );
-				System.err.println("ERROR Test n°" + i + " : Vrai = " + imgp.label  + " - Trouvé = " + lbl);
+				ImageDisplayFrame disp = new ImageDisplayFrame( img );
+				disp.changeImage( img );
+				System.err.println( "ERROR Test n°" + i + " : Vrai = " + lbl + " - Trouvé = "
+						+ recogLbl );
 			}
-			System.out.println( "Vrai label : " + imgp.label );
-			System.out.println( "Label évalué : " + lbl );
+			System.out.println( "Vrai label : " + lbl );
+			System.out.println( "Label évalué : " + recogLbl );
 			System.out.println();
 		}
-		
-		System.out.println(nbTests + " tests effectués : " + nbErreurs + " erreurs");
+
+		System.out.println( nbTests + " tests effectués : " + nbErreurs + " erreurs" );
 		System.exit( 1 );
 	}
 }

@@ -44,17 +44,20 @@ public class TestingImageReader{
 		read();
 	}
 
-	public static void read(){
+	/**
+	 * Fonction de test lisant des images
+	 */
+	private static void read(){
 		try{
 
 			for(int i = 0; i < 9; i++)
 				readNextImage();
-			BufferedImage image = readNextImage().image;
+			System.out.println( bufLabels[labelOffset] );
+			BufferedImage image = readNextImage().getImage();
 
 			ImageDisplayFrame disp = new ImageDisplayFrame( image );
 			disp.changeImage( image );
 			ImageIO.write( image, "jpg", new File( "test.jpg" ) );
-
 			// for(int i = 0; i < 1000; i++)
 			// System.out.println( bufLabels[i] );
 
@@ -68,38 +71,25 @@ public class TestingImageReader{
 
 	public static int width = 28, height = 28;
 
+	/**
+	 * Lit la prochaine image des données
+	 * @return
+	 */
 	public static ImagePoint readNextImage(){
-
-		// int height = 0;
-		// for(int i = 0; i < 4; i++){
-		// height <<= 4;
-		// height += bufImages[imagesOffset];
-		// imagesOffset++;
-		// }
-		// System.out.println(height);
-		//
-		// int width = 0;
-		// for(int i = 0; i < 4; i++){
-		// width <<= 4;
-		// width += bufImages[imagesOffset];
-		// imagesOffset++;
-		// }
-		// System.out.println(width);
 
 		int label = bufLabels[labelOffset];
 		// System.out.println( label );
+		labelOffset++;
 
-		BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
+		int[] img = new int[width * height];
 
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++){
-				// System.out.println(i + " " + j + " " + bufImages[imagesOffset]);
-				image.setRGB( j, i, ( 255 - bufImages[imagesOffset] ) * 0x00010101 );
+				img[j + i * height] = 255 - bufImages[imagesOffset];
 				imagesOffset++;
 			}
 
-		labelOffset++;
-		return new ImagePoint( image, label );
+		return new ImagePoint( img, width, height, label );
 	}
 
 }

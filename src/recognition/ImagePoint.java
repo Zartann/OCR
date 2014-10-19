@@ -5,11 +5,20 @@ import java.awt.image.BufferedImage;
 
 public class ImagePoint{
 
-	public final BufferedImage image;
-	public final int label;
+//	public final BufferedImage image;
 	
-	public ImagePoint(BufferedImage img, int lbl){
+	/**
+	 * Image stockée sous forme d'entiers correspondant à des pixels de niveaux de gris
+	 * (i, j) -> i + j * width
+	 */
+	private int[] image;
+	private int width, height;
+	private final int label;
+	
+	public ImagePoint(int[] img, int w, int h, int lbl){
 		image = img;
+		width = w;
+		height = h;
 		label = lbl;
 	}
 	
@@ -20,7 +29,46 @@ public class ImagePoint{
 	 * @return
 	 */
 	public int getValue(int x, int y){
-		return image.getRGB( x, y ) & 0xFF;
+//		return image.getRGB( x, y ) & 0xFF;
+		return image[x + y * width];
+	}
+	
+	/**
+	 * Retourne la largeur de l'image
+	 * @return
+	 */
+	public int getWidth(){
+		return width;
+	}
+	
+	/**
+	 * Retourne la hauteur de l'image
+	 * @return
+	 */
+	public int getHeight(){
+		return height;
+	}
+	
+	/**
+	 * Retourne l'image sous un format de BufferedImage
+	 * @return
+	 */
+	public BufferedImage getImage(){
+		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		
+		for(int i = 0; i< getWidth(); i++)
+			for(int j = 0; j < getHeight(); j++)
+				img.setRGB( i, j, image[i + j * width] * 0x00010101 );
+		
+		return img;
+	}
+	
+	/**
+	 * Retourne le label de l'image
+	 * @return
+	 */
+	public int getLabel(){
+		return label;
 	}
 	
 	/**
@@ -30,13 +78,13 @@ public class ImagePoint{
 	 */
 	public double distanceEuclidienne(ImagePoint img2){
 		
-		if( image.getWidth() != img2.image.getWidth() || image.getHeight() != img2.image.getHeight())
-			throw new RuntimeException("Pas mêmes dimensions");
+		if( getWidth() != img2.getWidth() || getHeight() != img2.getHeight())
+			throw new RuntimeException("Les dimensions ne ocrrespondent pas");
 		
 		double dist = 0;
 		
-		for(int i = 0; i < image.getWidth(); i++)
-			for(int j = 0; j < image.getHeight(); j++)
+		for(int i = 0; i < getWidth(); i++)
+			for(int j = 0; j < getHeight(); j++)
 				dist += Math.pow( (getValue(i, j) - img2.getValue( i, j )), 2);
 		
 		return Math.sqrt(dist);

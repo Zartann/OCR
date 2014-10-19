@@ -2,6 +2,7 @@ package recognition.training;
 
 import helper.TrainingImageReader;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -27,16 +28,16 @@ public class KNNTraining{
 		ImagePoint imgp;
 		for(int i = 0; i < 60000; i++){
 			imgp = TrainingImageReader.readNextImage();
-			pretreat(imgp);
+			pretreat( imgp );
 			imagesList.add( imgp );
 		}
-		
+
 		TrainingImageReader.imagesOffset = imagesOffset;
 		TrainingImageReader.labelOffset = labelOffset;
 	}
-	
+
 	public static void pretreat(ImagePoint imgp){
-		
+
 	}
 
 	public static void main(String[] args){
@@ -45,8 +46,10 @@ public class KNNTraining{
 		int i = 0;
 		for(ImagePoint imgp : imagesList){
 			try{
-				ImageIO.write( imgp.image, "jpg", new File( "resources/train-images/image" + i
-						+ "-" + imgp.label + ".jpg" ) );
+				BufferedImage img = imgp.getImage();
+				int lbl = imgp.getLabel();
+				ImageIO.write( img, "jpg", new File( "resources/train-images/image" + i + "-" + lbl
+						+ ".jpg" ) );
 			}
 			catch (IOException e){
 				// TODO Auto-generated catch block
