@@ -55,7 +55,8 @@ public class TestingImageReader{
 			System.out.println( bufLabels[labelOffset] );
 			BufferedImage image = readNextImage().getImage();
 
-			ImageDisplayFrame disp = new ImageDisplayFrame( image );
+			ImageDisplayFrame disp = new ImageDisplayFrame( image, "Label : "
+					+ bufLabels[labelOffset - 1] );
 			disp.changeImage( image );
 			ImageIO.write( image, "jpg", new File( "test.jpg" ) );
 			// for(int i = 0; i < 1000; i++)
@@ -73,6 +74,7 @@ public class TestingImageReader{
 
 	/**
 	 * Lit la prochaine image des données
+	 * 
 	 * @return
 	 */
 	public static ImagePoint readNextImage(){

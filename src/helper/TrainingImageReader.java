@@ -54,7 +54,8 @@ public class TrainingImageReader{
 				readNextImage();
 			BufferedImage image = readNextImage().getImage();
 
-			ImageDisplayFrame disp = new ImageDisplayFrame( image );
+			ImageDisplayFrame disp = new ImageDisplayFrame( image, "Label : "
+					+ bufLabels[labelOffset - 1] );
 			disp.changeImage( image );
 			ImageIO.write( image, "jpg", new File( "test.jpg" ) );
 
@@ -86,7 +87,7 @@ public class TrainingImageReader{
 			}
 
 		return new ImagePoint( img, width, height, label );
-		
+
 	}
 
 }

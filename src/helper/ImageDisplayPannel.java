@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class ImageDisplayPannel extends JPanel {
 	
 	private BufferedImage image = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);

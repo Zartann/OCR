@@ -67,7 +67,8 @@ public class KNNClassifier{
 
 			if (recogLbl != lbl){
 				nbErreurs++;
-				ImageDisplayFrame disp = new ImageDisplayFrame( img );
+				ImageDisplayFrame disp = new ImageDisplayFrame( img, "ERROR Test n°" + i + " : Vrai = " + lbl + " - Trouvé = "
+						+ recogLbl );
 				disp.changeImage( img );
 				System.err.println( "ERROR Test n°" + i + " : Vrai = " + lbl + " - Trouvé = "
 						+ recogLbl );
