@@ -78,7 +78,7 @@ public class TrainingImageReader{
 		// System.out.println(label);
 		labelOffset++;
 
-		int[] img = new int[width * height];
+		double[] img = new double[width * height];
 
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++){
