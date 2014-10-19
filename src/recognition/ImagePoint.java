@@ -90,7 +90,7 @@ public class ImagePoint{
 	public double distanceEuclidienne(ImagePoint img2){
 
 		if (getWidth() != img2.getWidth() || getHeight() != img2.getHeight())
-			throw new RuntimeException( "Les dimensions ne ocrrespondent pas" );
+			throw new RuntimeException( "Les dimensions ne correspondent pas !" );
 
 		double dist = 0;
 
