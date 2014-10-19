@@ -38,6 +38,26 @@ public class ImagePoint{
 			value = 0;
 		return value;
 	}
+	
+	/**
+	 * Change la valeur en (x, y) par v
+	 * @param x
+	 * @param y
+	 * @param v
+	 */
+	public void setValue(int x, int y, double v){
+		image[x + y * width] = v;
+	}
+	
+	/**
+	 * Change la valeur en (x, y) par v
+	 * @param x
+	 * @param y
+	 * @param v
+	 */
+	public void setValue(int x, int y, int v){
+		image[x + y * width] = v;
+	}
 
 	/**
 	 * Retourne la largeur de l'image
