@@ -14,7 +14,7 @@ public class ImageDisplayFrame extends JFrame {
 	public ImageDisplayFrame(BufferedImage img){        
 		this.setTitle("Animation");
 		this.setSize(defaultWidth, defaultHeight);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		pan = new ImageDisplayPannel(img);
 		this.setContentPane(pan);
