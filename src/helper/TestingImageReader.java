@@ -50,8 +50,8 @@ public class TestingImageReader{
 	private static void read(){
 		try{
 
-			for(int i = 0; i < 9; i++)
-				readNextImage();
+//			for(int i = 0; i < 9; i++)
+//				readNextImage();
 			System.out.println( bufLabels[labelOffset] );
 			BufferedImage image = readNextImage().getImage();
 

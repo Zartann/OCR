@@ -4,7 +4,11 @@ import helper.ImageDisplayFrame;
 import helper.TestingImageReader;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.TreeMap;
+
+import javax.imageio.ImageIO;
 
 import recognition.ImagePoint;
 import recognition.training.KNNTraining;
@@ -52,24 +56,37 @@ public class KNNClassifier{
 		KNNTraining.train();
 		System.out.println( "Apprentissage effectué" );
 
-		int nbTests = 1000;
+		ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
+				BufferedImage.TYPE_INT_RGB ), "Current image" );
+
+		int nbTests = 10000;
 		int nbErreurs = 0;
 		for(int i = 1; i <= nbTests; i++){
 			System.out.println( "Test n°" + i + " :" );
 
 			ImagePoint imgp = TestingImageReader.readNextImage();
+			BufferedImage img = imgp.getImage();
+			disp.changeImage( img );
 
 			// ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
 			// disp.changeImage( imgp.image );
 
-			int recogLbl = recognize( imgp ), lbl = imgp.getLabel();
-			BufferedImage img = imgp.getImage();
+			int lbl = imgp.getLabel(), recogLbl = recognize( imgp );
 
 			if (recogLbl != lbl){
 				nbErreurs++;
-				ImageDisplayFrame disp = new ImageDisplayFrame( img, "ERROR Test n°" + i + " : Vrai = " + lbl + " - Trouvé = "
-						+ recogLbl );
-				disp.changeImage( img );
+				// ImageDisplayFrame disp = new ImageDisplayFrame( img, "ERROR Test n°" + i
+				// + " : Vrai = " + lbl + " - Trouvé = " + recogLbl );
+
+				try{
+					ImageIO.write( img, "jpg", new File( "resources/errors/error-test" + i + "v"
+							+ lbl + "r" + recogLbl + ".jpg" ) );
+				}
+				catch (IOException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				System.err.println( "ERROR Test n°" + i + " : Vrai = " + lbl + " - Trouvé = "
 						+ recogLbl );
 			}
