@@ -85,9 +85,10 @@ public class TestingImageReader{
 
 		double[] img = new double[width * height];
 
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < height; j++){
-				img[j + i * height] = 255 - bufImages[imagesOffset];
+		for(int j = 0; j < height; j++)
+			for(int i = 0; i < width; i++){
+				//Conversion du byte en entier non signé et passage en niveau de gris correct
+				img[i + j * width] = 255 - (bufImages[imagesOffset] & 0xFF);
 				imagesOffset++;
 			}
 

@@ -32,11 +32,11 @@ public class ImagePoint{
 	public int getValue(int x, int y){
 		// return image.getRGB( x, y ) & 0xFF;
 		int value = (int) image[x + y * width];
-//		System.out.println(value * 0x00010101);
-//		if (value > 255)
-//			value = 255;
-//		if (value < 0)
-//			value = 0;
+//		System.out.println(value);
+		if (value > 255)
+			value = 255;
+		if (value < 0)
+			value = 0;
 		return value;
 	}
 	
