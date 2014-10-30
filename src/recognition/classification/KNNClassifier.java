@@ -56,8 +56,8 @@ public class KNNClassifier{
 		KNNTraining.train();
 		System.out.println( "Apprentissage effectué" );
 
-		ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
-				BufferedImage.TYPE_INT_RGB ), "Current image" );
+//		ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
+//				BufferedImage.TYPE_INT_RGB ), "Current image" );
 
 		int nbTests = 10000;
 		int nbErreurs = 0;
@@ -65,8 +65,8 @@ public class KNNClassifier{
 			System.out.println( "Test n°" + i + " :" );
 
 			ImagePoint imgp = TestingImageReader.readNextImage();
-			BufferedImage img = imgp.getImage();
-			disp.changeImage( img );
+			
+//			disp.changeImage( img );
 
 			// ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
 			// disp.changeImage( imgp.image );
@@ -79,7 +79,8 @@ public class KNNClassifier{
 				// + " : Vrai = " + lbl + " - Trouvé = " + recogLbl );
 
 				try{
-					ImageIO.write( img, "jpg", new File( "resources/errors/error-test" + i + "v"
+					BufferedImage img = imgp.getImage();
+					ImageIO.write( img, "jpg", new File( "resources/errors/errorNew-test" + i + "v"
 							+ lbl + "r" + recogLbl + ".jpg" ) );
 				}
 				catch (IOException e){
