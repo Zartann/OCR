@@ -32,16 +32,17 @@ public class ImagePoint{
 	public int getValue(int x, int y){
 		// return image.getRGB( x, y ) & 0xFF;
 		int value = (int) image[x + y * width];
-//		System.out.println(value);
+		// System.out.println(value);
 		if (value > 255)
 			value = 255;
 		if (value < 0)
 			value = 0;
 		return value;
 	}
-	
+
 	/**
 	 * Change la valeur en (x, y) par v
+	 * 
 	 * @param x
 	 * @param y
 	 * @param v
@@ -49,9 +50,10 @@ public class ImagePoint{
 	public void setValue(int x, int y, double v){
 		image[x + y * width] = v;
 	}
-	
+
 	/**
 	 * Change la valeur en (x, y) par v
+	 * 
 	 * @param x
 	 * @param y
 	 * @param v
@@ -102,16 +104,49 @@ public class ImagePoint{
 		return label;
 	}
 
+	public double distance(ImagePoint img2, int l){
+
+		if (getWidth() != img2.getWidth() || getHeight() != img2.getHeight())
+			throw new RuntimeException( "Les dimensions ne correspondent pas !" );
+
+		switch (l){
+			case 1:
+				return distanceL1( img2 );
+			case 2:
+				return distanceEuclidienne( img2 );
+			case -1:
+				return distanceLInf( img2 );
+			default:
+				throw new IllegalArgumentException( "Unknown distance" );
+		}
+
+	}
+
+	/**
+	 * Retoune la distance L1 entre les deux images
+	 * 
+	 * @param img2
+	 * @return
+	 */
+	private double distanceL1(ImagePoint img2){
+
+		double dist = 0;
+
+		for(int i = 0; i < getWidth(); i++)
+			for(int j = 0; j < getHeight(); j++)
+				dist += Math.abs( ( getValue( i, j ) - img2.getValue( i, j ) ) );
+
+		return dist;
+
+	}
+
 	/**
 	 * Retoune la distance euclidienne entre les deux images
 	 * 
 	 * @param img2
 	 * @return
 	 */
-	public double distanceEuclidienne(ImagePoint img2){
-
-		if (getWidth() != img2.getWidth() || getHeight() != img2.getHeight())
-			throw new RuntimeException( "Les dimensions ne correspondent pas !" );
+	private double distanceEuclidienne(ImagePoint img2){
 
 		double dist = 0;
 
@@ -123,4 +158,21 @@ public class ImagePoint{
 
 	}
 
+	/**
+	 * Retoune la distance L_infinie entre les deux images
+	 * 
+	 * @param img2
+	 * @return
+	 */
+	private double distanceLInf(ImagePoint img2){
+
+		double dist = 0;
+
+		for(int i = 0; i < getWidth(); i++)
+			for(int j = 0; j < getHeight(); j++)
+				dist = Math.max( dist, Math.abs( ( getValue( i, j ) - img2.getValue( i, j ) ) ) );
+
+		return dist;
+
+	}
 }

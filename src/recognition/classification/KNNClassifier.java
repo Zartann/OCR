@@ -28,7 +28,7 @@ public class KNNClassifier{
 		TreeMap<Double, ImagePoint> map = new TreeMap<Double, ImagePoint>();
 
 		for(ImagePoint imgp2 : KNNTraining.imagesList){
-			map.put( imgp.distanceEuclidienne( imgp2 ), imgp2 );
+			map.put( imgp.distance( imgp2, 2 ), imgp2 );
 		}
 
 		int[] labels = new int[10];
