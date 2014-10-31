@@ -16,14 +16,15 @@ import recognition.training.KNNTraining;
 
 public class KNNClassifier{
 
-	private static final int k = 3;
+	private static final int defaultK = 3;
+	private static final int defaultDist = 2;
 
 	/**
 	 * Reconnaît le caractère envoyé en image Suppose que l'entraînement est déjà fait
 	 * 
 	 * @param imgp
 	 */
-	public static int recognize(ImagePoint imgp){
+	public static int recognize(ImagePoint imgp, int dist, int k){
 		pretreat( imgp );
 		TreeMap<Double, ImagePoint> map = new TreeMap<Double, ImagePoint>();
 
@@ -56,8 +57,8 @@ public class KNNClassifier{
 		KNNTraining.train();
 		System.out.println( "Apprentissage effectué" );
 
-//		ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
-//				BufferedImage.TYPE_INT_RGB ), "Current image" );
+		// ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
+		// BufferedImage.TYPE_INT_RGB ), "Current image" );
 
 		int nbTests = 10000;
 		int nbErreurs = 0;
@@ -65,13 +66,13 @@ public class KNNClassifier{
 			System.out.println( "Test n°" + i + " :" );
 
 			ImagePoint imgp = TestingImageReader.readNextImage();
-			
-//			disp.changeImage( img );
+
+			// disp.changeImage( img );
 
 			// ImageDisplayFrame disp = new ImageDisplayFrame( imgp.image );
 			// disp.changeImage( imgp.image );
 
-			int lbl = imgp.getLabel(), recogLbl = recognize( imgp );
+			int lbl = imgp.getLabel(), recogLbl = recognize( imgp, defaultDist, defaultK );
 
 			if (recogLbl != lbl){
 				nbErreurs++;
