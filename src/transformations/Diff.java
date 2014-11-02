@@ -15,20 +15,21 @@ public class Diff{
 
 		BufferedImage image = TestingImageReader.readNextImage().getImage();
 
-		ImageDisplayFrame disp = new ImageDisplayFrame( image, "" );
+		ImageDisplayFrame disp = new ImageDisplayFrame( image, "Image départ" );
 
 		BufferedImage img2;
 		// img2 = rotate( image, Math.PI / 12 );
-		img2 = translate( image, 1, 1 );
-		double[][] diff = diff( image, TransformationType.Translation );
-
-		BufferedImage img3 = applyDiff( image, diff, -1 );
 		// img2 = scale( image, 1, 1 );
 		// img2 = shear( image, 0, 0.2 );
-
-		ImageDisplayFrame disp2 = new ImageDisplayFrame( img2, "" );
-
-		ImageDisplayFrame disp3 = new ImageDisplayFrame( img3, "" );
+		img2 = translate( image, 1, 1 );
+		
+		ImageDisplayFrame disp2 = new ImageDisplayFrame( img2, "Image Transformée" );
+		
+		double[][] diff = diff( image, TransformationType.Translation );
+		BufferedImage img3 = applyDiff( image, diff, -1 );
+		
+		ImageDisplayFrame disp3 = new ImageDisplayFrame( img3, "Image + Diff" );
+		
 	}
 
 	private static double[][] diff(BufferedImage img, TransformationType transfType){
