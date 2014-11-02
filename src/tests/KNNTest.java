@@ -30,6 +30,8 @@ public class KNNTest{
 
 	public static void main(String[] args){
 
+		long debut = System.currentTimeMillis();
+
 		try{
 			init();
 		}
@@ -39,9 +41,9 @@ public class KNNTest{
 		}
 
 		KNNTraining.train();
-		System.out.println( "Apprentissage effectué" );
+		System.out.println( "Apprentissage effectué\n" );
 
-		int nbTests = 10;
+		int nbTests = 1000;
 		for(numTest = 1; numTest <= nbTests; numTest++){
 			System.out.println( "Test n°" + numTest + " :" );
 
@@ -54,10 +56,20 @@ public class KNNTest{
 		}
 
 		System.out.println( nbTests + " tests effectués : " );
-		for(int d = 0; d < 3; d++)
-			for(int k = 0; k < 3; k++)
+		for(int d = 0; d < 3; d++){
+			for(int k = 0; k < 3; k++){
 				System.out.println( "Distance " + ( d == 0 ? "Inf" : ( "" + d ) ) + " - k = "
 						+ ( 2 * k + 1 ) + " : " + nbErreurs[d][k] + " erreurs" );
+
+				results[d][k].println( nbTests + " tests effectués : " + nbErreurs[d][k]
+						+ " erreurs" );
+				results[d][k].println();
+				results[d][k].flush();
+			}
+			System.out.println();
+		}
+		System.out.println( "Temps écoulé : " + ( ( System.currentTimeMillis() - debut ) / 60000 )
+				+ " minutes" );
 		System.exit( 1 );
 	}
 
@@ -96,8 +108,7 @@ public class KNNTest{
 
 		int dist = distAModif == 0 ? -1 : distAModif, k = 2 * kAModif + 1;
 
-		System.out.println( "Distance " + ( dist == -1 ? "Inf" : ( "" + dist ) ) + " - k = "
-				+ ( 2 * k + 1 ) );
+		System.out.println( "Distance " + ( dist == -1 ? "Inf" : ( "" + dist ) ) + " - k = " + k );
 
 		int lbl = imgp.getLabel();
 
@@ -107,6 +118,7 @@ public class KNNTest{
 				+ ( recogLbl != lbl ? "ERREUR" : "" ) );
 		results[distAModif][kAModif].println( "Vrai label : " + lbl + " - Label évalué : "
 				+ recogLbl );
+		results[distAModif][kAModif].println();
 		results[distAModif][kAModif].flush();
 
 		resultsCSV[distAModif][kAModif].println( numTest + ";" + lbl + ";" + recogLbl );
@@ -126,8 +138,8 @@ public class KNNTest{
 			}
 
 			System.err.println( "ERROR Test n°" + numTest + " Distance "
-					+ ( dist == -1 ? "Inf" : ( "" + dist ) ) + " - k = " + ( 2 * k + 1 )
-					+ " : Vrai = " + lbl + " - Trouvé = " + recogLbl );
+					+ ( dist == -1 ? "Inf" : ( "" + dist ) ) + " - k = " + k + " : Vrai = " + lbl
+					+ " - Trouvé = " + recogLbl );
 		}
 		System.out.println( "Vrai label : " + lbl );
 		System.out.println( "Label évalué : " + recogLbl );
