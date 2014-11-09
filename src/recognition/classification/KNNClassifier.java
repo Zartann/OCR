@@ -17,7 +17,7 @@ import recognition.training.KNNTraining;
 public class KNNClassifier{
 
 	private static final int defaultK = 3;
-	private static final int defaultDist = 2;
+	private static final int defaultDist = 0;
 
 	/**
 	 * Reconnaît le caractère envoyé en image Suppose que l'entraînement est déjà fait
@@ -29,9 +29,12 @@ public class KNNClassifier{
 		TreeMap<Double, ImagePoint> map = new TreeMap<Double, ImagePoint>();
 
 		for(ImagePoint imgp2 : KNNTraining.imagesList){
-			map.put( imgp.distance( imgp2, 2 ), imgp2 );
+			map.put( imgp.distance( imgp2, dist ), imgp2 );
 		}
-
+		
+		double bestDist = imgp.distance(map.firstEntry().getValue(), dist );
+		System.out.println("Best Distance = " + bestDist);
+		
 		int[] labels = new int[10];
 		for(int i = 0; i < k; i++)
 			labels[map.pollFirstEntry().getValue().getLabel()]++;
@@ -54,13 +57,15 @@ public class KNNClassifier{
 	}
 
 	public static void main(String[] args){
+		System.out.println("K = " + defaultK + " - Dist = " + defaultDist);
+		
 		KNNTraining.train();
 		System.out.println( "Apprentissage effectué" );
 
 		// ImageDisplayFrame disp = new ImageDisplayFrame( new BufferedImage( 28, 28,
 		// BufferedImage.TYPE_INT_RGB ), "Current image" );
 
-		int nbTests = 10000;
+		int nbTests = 100;
 		int nbErreurs = 0;
 		for(int i = 1; i <= nbTests; i++){
 			System.out.println( "Test n°" + i + " :" );

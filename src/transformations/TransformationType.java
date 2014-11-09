@@ -3,8 +3,14 @@ package transformations;
 
 public enum TransformationType{
 
-	Translation,
+	TranslationX,
+	TranslationY,
 	Rotation,
-	Scaling
+	Scaling,
+	Thickening,
+	Hyperbolic1,
+	Hyperbolic2,
+	AdditiveBrightness,
+	MultiplicativeBrightness;
 	
 }

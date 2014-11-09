@@ -25,7 +25,7 @@ public class Diff{
 
 		ImageDisplayFrame disp2 = new ImageDisplayFrame( img2, "Image Transformée" );
 
-		double[][] diff = diff( image, TransformationType.Translation );
+		double[][] diff = diff( image, TransformationType.TranslationX );
 		BufferedImage img3 = applyDiff( image, diff, -1 );
 
 		ImageDisplayFrame disp3 = new ImageDisplayFrame( img3, "Image + Diff" );
@@ -34,8 +34,8 @@ public class Diff{
 
 	private static double[][] diff(BufferedImage img, TransformationType transfType){
 		switch (transfType){
-			case Translation:
-				BufferedImage img2 = translate( img, 1, 1 );
+			case TranslationX:
+				BufferedImage img2 = translate( img, 1, 0 );
 				return subDiff( img, img2, 1 );
 			default:
 				throw new IllegalArgumentException( "Unknown Transformation" );

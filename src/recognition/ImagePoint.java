@@ -12,14 +12,21 @@ public class ImagePoint{
 	 * + j * width
 	 */
 	private double[] image;
+	private double[][] tangents;
 	private int width, height;
 	private final int label;
+	
+	private static final int BACKGROUND = 0;
 
 	public ImagePoint(double[] img, int w, int h, int lbl){
 		image = img;
 		width = w;
 		height = h;
 		label = lbl;
+	}
+	
+	public void computeTangents(){
+		tangents = TangentDistance.calculateTangents( image, height, width, BACKGROUND );
 	}
 
 	/**
@@ -79,6 +86,24 @@ public class ImagePoint{
 	public int getHeight(){
 		return height;
 	}
+	
+	/**
+	 * Retourne l'ensemble des vecteurs tangents à l'image, en les calculant si besoin
+	 * @return
+	 */
+	public double[][] getTangents(){
+		if(tangents == null)
+			computeTangents();
+		return tangents;
+	}
+	
+	/**
+	 * Retourne l'image sous forme de tableau
+	 * @return
+	 */
+	public double[] getImageArray(){
+		return image;
+	}
 
 	/**
 	 * Retourne l'image sous un format de BufferedImage
@@ -116,6 +141,8 @@ public class ImagePoint{
 				return distanceEuclidienne( img2 );
 			case -1:
 				return distanceLInf( img2 );
+			case 0:
+				return tangentDistance( img2 );
 			default:
 				throw new IllegalArgumentException( "Unknown distance" );
 		}
@@ -174,5 +201,11 @@ public class ImagePoint{
 
 		return dist;
 
+	}
+	
+	private double tangentDistance(ImagePoint img2){
+		
+		return TangentDistance.calculateTangentDistance(this, img2);
+		
 	}
 }
