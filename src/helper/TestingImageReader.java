@@ -83,7 +83,7 @@ public class TestingImageReader{
 		// System.out.println( label );
 		labelOffset++;
 
-		double[] img = new double[width * height];
+		float[] img = new float[width * height];
 
 		for(int j = 0; j < height; j++)
 			for(int i = 0; i < width; i++){

@@ -11,14 +11,14 @@ public class ImagePoint{
 	 * Image stockée sous forme de doubles correspondant à des pixels de niveaux de gris (i, j) -> i
 	 * + j * width
 	 */
-	private double[] image;
-	private double[][] tangents;
+	private float[] image;
+	private float[][] tangents;
 	private int width, height;
 	private final int label;
 	
 	private static final int BACKGROUND = 0;
 
-	public ImagePoint(double[] img, int w, int h, int lbl){
+	public ImagePoint(float[] img, int w, int h, int lbl){
 		image = img;
 		width = w;
 		height = h;
@@ -54,7 +54,7 @@ public class ImagePoint{
 	 * @param y
 	 * @param v
 	 */
-	public void setValue(int x, int y, double v){
+	public void setValue(int x, int y, float v){
 		image[x + y * width] = v;
 	}
 
@@ -91,7 +91,7 @@ public class ImagePoint{
 	 * Retourne l'ensemble des vecteurs tangents à l'image, en les calculant si besoin
 	 * @return
 	 */
-	public double[][] getTangents(){
+	public float[][] getTangents(){
 		if(tangents == null)
 			computeTangents();
 		return tangents;
@@ -101,7 +101,7 @@ public class ImagePoint{
 	 * Retourne l'image sous forme de tableau
 	 * @return
 	 */
-	public double[] getImageArray(){
+	public float[] getImageArray(){
 		return image;
 	}
 
