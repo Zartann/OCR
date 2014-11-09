@@ -9,31 +9,38 @@ class TangentDistance{
 
 	static float calculateTangentDistance(ImagePoint img1, ImagePoint img2){
 
-		float[][] tangentsE = 
-				img1.getTangents();
+//		float[][] tangentsE = 
+//				img1.getTangents();
 //		 calculateTangents( img1.getImageArray(), 28, 28, 0 );
-		float[][] tangentsP = 
-				img2.getTangents();
+//		float[][] tangentsP = 
+//				img2.getTangents();
 //		 calculateTangents( img2.getImageArray(), 28, 28, 0 );
 
-		Matrix LeT = new Matrix( tangentsE ), LpT = new Matrix( tangentsP );
+		Matrix LeT = img1.getLt(), LpT = img2.getLt();
+//		Matrix LeT = new Matrix( tangentsE ), LpT = new Matrix( tangentsP );
 		Matrix Le = LeT.transpose(), Lp = LpT.transpose();
 
-		Matrix Lee = LeT.times( Le ), Lpp = LpT.times( Lp );
-
-		Matrix LeeI = Lee.inverse(), LppI = Lpp.inverse();
+		Matrix Lee = img1.getLl(), Lpp = img2.getLl();
+//		Matrix Lee = LeT.times( Le ), Lpp = LpT.times( Lp );
+		
+		Matrix LeeI = img1.getLli(), LppI = img2.getLli();
+//		Matrix LeeI = Lee.inverse(), LppI = Lpp.inverse();
 
 		Matrix Lep = LeT.times( Lp ), Lpe = Lep.transpose();
 
-		Matrix E = new Matrix( img1.getImageArray(), img1.getImageArray().length ), P = new Matrix(
-				img2.getImageArray(), img2.getImageArray().length );
+		Matrix E = img1.getM(), P = img2.getM();
+		Matrix EP = E.minus( P );
+//		Matrix E = new Matrix( img1.getImageArray(), img1.getImageArray().length ), P = new Matrix(
+//				img2.getImageArray(), img2.getImageArray().length );
 
-		Matrix temp1 = Lpe.times( LeeI ).times( LeT ).minus( LpT ).times( E.minus( P ) );
+		Matrix temp1 = Lpe.times( LeeI ).times( LeT.times( EP ) ).minus( LpT.times( EP ) );
+//		Matrix temp1 = Lpe.times( LeeI ).times( LeT ).minus( LpT ).times( E.minus( P ) );
 		LUDecomposition lu1 = Lpe.times( LeeI ).times( Lep ).minus( Lpp ).lu();
 
 		Matrix alphaP = lu1.solve( temp1 );
 
-		Matrix temp2 = Lep.times( LppI ).times( LpT ).minus( LeT ).times( E.minus( P ) );
+		Matrix temp2 = Lep.times( LppI ).times( LpT.times( EP ) ).minus( LeT.times( EP ) );
+//		Matrix temp2 = Lep.times( LppI ).times( LpT ).minus( LeT ).times( E.minus( P ) );
 		LUDecomposition lu2 = Lee.minus( Lep.times( LppI ).times( Lpe ) ).lu();
 
 		Matrix alphaE = lu2.solve( temp2 );

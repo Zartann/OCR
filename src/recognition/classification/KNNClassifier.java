@@ -1,17 +1,18 @@
 package recognition.classification;
 
-import helper.ImageDisplayFrame;
 import helper.TestingImageReader;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
 import recognition.ImagePoint;
 import recognition.training.KNNTraining;
+//import recognition.training.KNNTraining;
 
 
 public class KNNClassifier{
@@ -24,11 +25,11 @@ public class KNNClassifier{
 	 * 
 	 * @param imgp
 	 */
-	public static int recognize(ImagePoint imgp, int dist, int k){
+	public static int recognize(ImagePoint imgp, int dist, int k, LinkedList<ImagePoint> list){
 		pretreat( imgp );
 		TreeMap<Double, ImagePoint> map = new TreeMap<Double, ImagePoint>();
 
-		for(ImagePoint imgp2 : KNNTraining.imagesList){
+		for(ImagePoint imgp2 : list){
 			map.put( imgp.distance( imgp2, dist ), imgp2 );
 		}
 		
@@ -45,6 +46,10 @@ public class KNNClassifier{
 				lbl = i;
 
 		return lbl;
+	}
+	
+	public static int recognize(ImagePoint imgp, int dist, int k){
+		return recognize(imgp, dist, k, KNNTraining.imagesList);
 	}
 
 	/**

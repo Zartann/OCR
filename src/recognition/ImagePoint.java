@@ -2,31 +2,45 @@ package recognition;
 
 import java.awt.image.BufferedImage;
 
+import Jama.Matrix;
+
 
 public class ImagePoint{
 
 	// public final BufferedImage image;
 
 	/**
-	 * Image stockée sous forme de doubles correspondant à des pixels de niveaux de gris (i, j) -> i
+	 * Image stockée sous forme de floats correspondant à des pixels de niveaux de gris (i, j) -> i
 	 * + j * width
 	 */
 	private float[] image;
-	private float[][] tangents;
+	// private float[][] tangents;
+	private Matrix Lt, Ll, Lli;
 	private int width, height;
 	private final int label;
-	
+	private String name;
+
 	private static final int BACKGROUND = 0;
 
-	public ImagePoint(float[] img, int w, int h, int lbl){
+	public ImagePoint(float[] img, int w, int h, int lbl, String nm){
 		image = img;
 		width = w;
 		height = h;
 		label = lbl;
+		name = nm;
+//		computeMatrices();
 	}
-	
-	public void computeTangents(){
-		tangents = TangentDistance.calculateTangents( image, height, width, BACKGROUND );
+
+	// public void computeTangents(){
+	// tangents = TangentDistance.calculateTangents( image, height, width, BACKGROUND );
+	// }
+
+	public void computeMatrices(){
+//		m = new Matrix( image, image.length );
+		float[][] tangents = TangentDistance.calculateTangents( image, height, width, BACKGROUND );
+		Lt = new Matrix( tangents );
+		Ll = Lt.times( Lt.transpose() );
+		Lli = Ll.inverse();
 	}
 
 	/**
@@ -86,19 +100,38 @@ public class ImagePoint{
 	public int getHeight(){
 		return height;
 	}
-	
-	/**
-	 * Retourne l'ensemble des vecteurs tangents à l'image, en les calculant si besoin
-	 * @return
-	 */
-	public float[][] getTangents(){
-		if(tangents == null)
-			computeTangents();
-		return tangents;
+
+	// /**
+	// * Retourne l'ensemble des vecteurs tangents à l'image, en les calculant si besoin
+	// * @return
+	// */
+	// public float[][] getTangents(){
+	// if(tangents == null)
+	// computeTangents();
+	// return tangents;
+	// }
+
+	public Matrix getM(){
+		return new Matrix( image, image.length );
 	}
-	
+
+	public Matrix getLt(){
+		if(Lt == null)
+			computeMatrices();
+		return Lt;
+	}
+
+	public Matrix getLl(){
+		return Ll;
+	}
+
+	public Matrix getLli(){
+		return Lli;
+	}
+
 	/**
 	 * Retourne l'image sous forme de tableau
+	 * 
 	 * @return
 	 */
 	public float[] getImageArray(){
@@ -127,6 +160,10 @@ public class ImagePoint{
 	 */
 	public int getLabel(){
 		return label;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 	public double distance(ImagePoint img2, int l){
@@ -202,10 +239,10 @@ public class ImagePoint{
 		return dist;
 
 	}
-	
+
 	private double tangentDistance(ImagePoint img2){
-		
-		return TangentDistance.calculateTangentDistance(this, img2);
-		
+
+		return TangentDistance.calculateTangentDistance( this, img2 );
+
 	}
 }

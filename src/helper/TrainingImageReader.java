@@ -71,8 +71,10 @@ public class TrainingImageReader{
 	public static int imagesOffset = 16, labelOffset = 8;
 
 	public static int width = 28, height = 28;
+	public static int imgNum = 0;
 
 	public static ImagePoint readNextImage(){
+		imgNum++;
 
 		int label = bufLabels[labelOffset];
 		// System.out.println(label);
@@ -82,12 +84,12 @@ public class TrainingImageReader{
 
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++){
-				//Conversion du byte en entier non signé et passage en niveau de gris correct
-				img[j + i * height] = 255 - (bufImages[imagesOffset] & 0xFF);
+				// Conversion du byte en entier non signé et passage en niveau de gris correct
+				img[j + i * height] = 255 - ( bufImages[imagesOffset] & 0xFF );
 				imagesOffset++;
 			}
 
-		return new ImagePoint( img, width, height, label );
+		return new ImagePoint( img, width, height, label, "tr" + imgNum );
 
 	}
 

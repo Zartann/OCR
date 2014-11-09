@@ -50,8 +50,8 @@ public class TestingImageReader{
 	private static void read(){
 		try{
 
-//			for(int i = 0; i < 9; i++)
-//				readNextImage();
+			// for(int i = 0; i < 9; i++)
+			// readNextImage();
 			System.out.println( bufLabels[labelOffset] );
 			BufferedImage image = readNextImage().getImage();
 
@@ -71,6 +71,7 @@ public class TestingImageReader{
 	public static int imagesOffset = 16, labelOffset = 8;
 
 	public static int width = 28, height = 28;
+	public static int imgNum = 0;
 
 	/**
 	 * Lit la prochaine image des données
@@ -78,6 +79,7 @@ public class TestingImageReader{
 	 * @return
 	 */
 	public static ImagePoint readNextImage(){
+		imgNum++;
 
 		int label = bufLabels[labelOffset];
 		// System.out.println( label );
@@ -87,12 +89,12 @@ public class TestingImageReader{
 
 		for(int j = 0; j < height; j++)
 			for(int i = 0; i < width; i++){
-				//Conversion du byte en entier non signé et passage en niveau de gris correct
-				img[i + j * width] = 255 - (bufImages[imagesOffset] & 0xFF);
+				// Conversion du byte en entier non signé et passage en niveau de gris correct
+				img[i + j * width] = 255 - ( bufImages[imagesOffset] & 0xFF );
 				imagesOffset++;
 			}
 
-		return new ImagePoint( img, width, height, label );
+		return new ImagePoint( img, width, height, label, "te" + imgNum );
 	}
 
 }

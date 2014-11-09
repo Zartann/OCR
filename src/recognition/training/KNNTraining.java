@@ -21,9 +21,11 @@ public class KNNTraining{
 	 */
 	public static void train(){
 		int imagesOffset = TrainingImageReader.imagesOffset, labelOffset = TrainingImageReader.labelOffset;
-
+		int imgN = TrainingImageReader.imgNum;
+		
 		TrainingImageReader.imagesOffset = 16;
 		TrainingImageReader.labelOffset = 8;
+		TrainingImageReader.imgNum = 0;
 
 		ImagePoint imgp;
 		for(int i = 0; i < 60000; i++){
@@ -34,6 +36,7 @@ public class KNNTraining{
 
 		TrainingImageReader.imagesOffset = imagesOffset;
 		TrainingImageReader.labelOffset = labelOffset;
+		TrainingImageReader.imgNum = imgN;
 	}
 
 	public static void pretreat(ImagePoint imgp){
